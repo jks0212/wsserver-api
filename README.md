@@ -1,2 +1,2 @@
 # wsserver-api
-Make simple websocket server api
+Make and use simple websocket server api
