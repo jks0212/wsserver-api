@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<style>
+.box{
+	font-size: 12px;
+	border: 1px solid #D6D6D6;
+	width: 250px;
+	height: 200px;
+	padding: 10px;
+	overflow: auto;
+}
+</style>
+
+<div style="padding: 20px">
+	<h2>WSServer Echo Client</h2>
+	<div><strong>server address : port</strong> ex) 192.168.0.1:80<div/>
+	<div>
+		<input type="text" id="server_addr"/>
+		<button type="button" id="conn_btn" onclick="connect();">connect</button>
+	</div>
+	<div><strong>send message</strong><div/>
+	<div>
+		<input type="text" id="messages"/>
+		<button type="button" id="send_btn" onclick="send();">send</button>
+	</div>
+	<div>
+		<p><strong>echo messages</strong></p>
+		<p id="recv_msg" class="box"></p>
+	</div>
+</div>
+
+<script>
+	var wSocket;
+	var server_addr = document.getElementById("server_addr");
+	var msg_box = document.getElementById("recv_msg");
+
+	function connect(){
+		wSocket = new WebSocket("ws:" + server_addr.value);
+
+		wSocket.onopen = function(e){
+			msg_box.innerHTML += "connected<br/>";
+		}
+
+		wSocket.onmessage = function(e){
+			msg_box.innerHTML += "server echo : " + e.data + "<br/>";
+		}  
+		wSocket.onclose = function(e){
+			msg_box.innerHTML += "closed<br/>";
+		}
+	}
+
+	function send(){
+		var messages = document.getElementById("messages");
+		wSocket.send(messages.value);
+			
+	}
+
+</script>
